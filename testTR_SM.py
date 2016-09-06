@@ -9,7 +9,7 @@ import pyimagesearch.SFSolver as SFS
 #print TR_Result.result
 
 #all = image_classify then consolidate
-#SF.SemanticFeatureIndex("consolidate")
-SF.SemanticFeatureIndex("all")
-#x = SFS.SemanticFeatureSolver(".." + os.sep+".." + os.sep + "queryimage.jpg")
-#print x.result
+SF.SemanticFeatureIndex("consolidate")
+#SF.SemanticFeatureIndex("all")
+x = SFS.SemanticFeatureSolver(".." + os.sep+".." + os.sep + "queryimage.jpg")
+print x.result

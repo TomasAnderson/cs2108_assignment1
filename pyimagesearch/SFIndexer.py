@@ -58,7 +58,7 @@ ap.add_argument("-d", "--dataset", required = False, default='image'+os.sep+'dat
 	help = "Path to the directory that contains the images to be indexed")
 ap.add_argument("-cn", "--category", required = False, default='image'+os.sep+'category_names.txt',
 	help = "Path to the directory that contains the images to be indexed")
-ap.add_argument("-i", "--index", required = False, default='pyimagesearch'+os.sep+'semanticProperties.txt',
+ap.add_argument("-i", "--index", required = False, default='pyimagesearch'+os.sep+'SFProperties.txt',
 	help = "Path to where the computed index will be stored")
 ap.add_argument("-dl", "--datalist", required = False, default='pyimagesearch'+os.sep+'datalist.txt',
 	help = "Path to where the images are stored")
