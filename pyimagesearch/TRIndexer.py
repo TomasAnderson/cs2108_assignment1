@@ -15,11 +15,25 @@ class TagIndex:
                 doc = open(args["tags"], 'r')
                 self.taglist = dict()
                 self.imagetagcnt =  dict()
+                self.query_pos = 0
                 for line in doc:
                         line = line.split()
                         self.inverse_index(line, self.taglist)
                 doc.close()
+                self.read_test_tags()
                 self.storeToFile(args["index"])
+
+        def read_test_tags(self):
+                self.query_pos = dict()
+                fs = open (args["test"],"r")
+                pointer = 0
+                line = fs.readline()
+                while (line):
+                        print line.split()[0], pointer
+                        self.query_pos [line.split()[0]] = pointer
+                        pointer = fs.tell()
+                        line = fs.readline()
+                        
                 
         def inverse_index(self, line, taglist):
                 tags_length = len(line) - 1
@@ -40,6 +54,8 @@ class TagIndex:
                 indexfile = open(filepath, 'w')
                 pickle.dump(self.imagetagcnt,indexfile)
                 pickle.dump(self.taglist, indexfile)
+                if (self.query_pos):
+                        pickle.dump(self.query_pos, indexfile)
                 indexfile.close()
 
         def printToDisplay(self):
@@ -54,6 +70,9 @@ ap.add_argument("-t", "--tags", required = False, default='image'+os.sep+'train_
 	help = "Path to where the file describing images and their list of tags are stored")
 ap.add_argument("-i", "--index", required = False, default='pyimagesearch'+os.sep+'TR_index.txt',
 	help = "Path to where the computed index will be stored")
+ap.add_argument("-tt", "--test", required = False, default='test'+os.sep+'test_text_tags.txt',
+	help = "Path to where the computed index will be stored")
+
 args = vars(ap.parse_args())
 
 #printToDisplay()

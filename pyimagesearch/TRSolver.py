@@ -11,39 +11,48 @@ class TRSolver:
         self.querypath = queryname
         self.indexpath = "pyimagesearch" + os.sep + "TR_Index.txt"
         self.result = dict()
-        self.extractTag()
+        self.known_query_tags = 0
         self.lookupIndex()
         self.convertDictToOrderedList()
 
     def extractTag(self):
-        img = open(self.querypath, 'rb')
-        exif = exifread.process_file(img)
-        try:
-            comment = ast.literal_eval(str(eval("exif['Image XPComment']")))
-            comment = comment[0:-2:2]
-            comment = ''.join(chr(i) for i in comment)
-            comment = comment.split()
-        except KeyError:
-            comment = []
-        except SyntaxError:
-            print  'comment',exif['Image XPComment']
-        try:
-            keyword = ast.literal_eval(str(eval("exif['Image XPKeywords']")))
-            keyword = keyword[0:-2:2]
-            keyword = ''.join(chr(i) for i in keyword)
-            keyword = keyword.split(';')
-        except KeyError:
-            keyword = []
-        except SyntaxError:
-            print 'keyword', exif['Image XPKeywords']
-        self.tags = keyword + comment
+        imgname = self.querypath[self.querypath.rfind(os.sep)+1:]
+        query_known = self.known_query_tags.get(imgname, None)
+        if (query_known != None):
+            fs = open("test"+os.sep+"test_text_tags.txt","r")
+            fs.seek(query_known)
+            self.tags = fs.readline().split()[1:]
+        else:
+            img = open(self.querypath, 'rb')
+            exif = exifread.process_file(img)
+            try:
+                comment = ast.literal_eval(str(eval("exif['Image XPComment']")))
+                comment = comment[0:-2:2]
+                comment = ''.join(chr(i) for i in comment)
+                comment = comment.split()
+            except KeyError:
+                comment = []
+            except SyntaxError:
+                print  'comment',exif['Image XPComment']
+            try:
+                keyword = ast.literal_eval(str(eval("exif['Image XPKeywords']")))
+                keyword = keyword[0:-2:2]
+                keyword = ''.join(chr(i) for i in keyword)
+                keyword = keyword.split(';')
+            except KeyError:
+                keyword = []
+            except SyntaxError:
+                print 'keyword', exif['Image XPKeywords']
+            self.tags = keyword + comment
 
     def lookupIndex(self):
         pk_file = open(self.indexpath,'rb')
         self.imagetagcnt = pickle.load(pk_file)
         index_dict = pickle.load(pk_file)
+        self.known_query_tags = pickle.load(pk_file)
         #for k in index_dict:
         #    print k, index_dict[k]
+        self.extractTag()
         '''
         for each tag in query, check index, get whole list of corresponding images
         '''
