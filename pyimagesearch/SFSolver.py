@@ -4,6 +4,7 @@ import sys, string, os, platform
 import subprocess
 import cPickle as pickle
 from scipy import spatial
+import time
 
 # open the output index file for writing
 class SemanticFeatureSolver:
@@ -12,9 +13,13 @@ class SemanticFeatureSolver:
                 #load in semanticProperties Index
                 self.index = dict()
                 indexfile = open(args["index"], "rb")
+                start = time.clock()
                 self.index = pickle.load(indexfile)
+                indexfile.close()
+                print str(time.clock() - start)
                 self.result = dict()
                 self.runImageClassification(querypath)
+                start = time.clock()
                 self.computeSim(querypath)
                 self.convertDictToOrderedList()
                 

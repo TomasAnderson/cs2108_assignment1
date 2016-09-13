@@ -47,7 +47,7 @@ class SemanticFeatureIndex:
                                 values = line.split()
                                 imageID = imagePath[imagePath.rfind(os.sep) + 1:].replace("txt", "jpg")
                                 self.index[imageID] = [float(i) for i in values]
-                pickle.dump(self.index, self.output)
+                pickle.dump(self.index, self.output, pickle.HIGHEST_PROTOCOL)
                 self.output.close()
 
                 
