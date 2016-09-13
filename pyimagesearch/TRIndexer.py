@@ -13,12 +13,13 @@ import cPickle as pickle
 class TagIndex:
         def __init__(self):
                 doc = open(args["tags"], 'r')
-                self.taglist = dict()
-                self.imagetagcnt =  dict()
+                self.taglist = []
+                self.imagelist = []
                 self.query_pos = 0
                 for line in doc:
                         line = line.split()
-                        self.inverse_index(line, self.taglist)
+                        self.stem_word(line, self.taglist)
+                #print self.taglist[243], self.imagelist[243]
                 doc.close()
                 self.read_test_tags()
                 self.storeToFile(args["index"])
@@ -29,30 +30,32 @@ class TagIndex:
                 pointer = 0
                 line = fs.readline()
                 while (line):
-                        print line.split()[0], pointer
                         self.query_pos [line.split()[0]] = pointer
                         pointer = fs.tell()
                         line = fs.readline()
                         
                 
-        def inverse_index(self, line, taglist):
-                tags_length = len(line) - 1
+        def stem_word(self, line, taglist):
+                tags_length = len(line)
                 image_name = line[0]
-                self.imagetagcnt[image_name] = tags_length
+                string = []
+                self.imagelist.append(image_name)
                 for i in range (1,tags_length):
                         try:
                                 tag = LancasterStemmer().stem(line[i])
-                                tag = nltk.stem.WordNetLemmatizer().lemmatize(tag)
+                                #tag = nltk.wordnet.WordNetLemmatizer().lemmatize(tag)
+                                if (isinstance(tag, unicode)==False):
+                                        tag = unicode(tag,"utf-8")
+                                #print type(tag)
+                                string.append(tag)
                         except UnicodeDecodeError:
-                                tag = line[i]
-                        if taglist.has_key(tag):
-                                taglist[tag].append(image_name)
-                        else:
-                                taglist[tag]=[image_name,]
+                                continue
+                string = " ".join(string)
+                taglist.append(string)
 
         def storeToFile(self, filepath):
                 indexfile = open(filepath, 'w')
-                pickle.dump(self.imagetagcnt,indexfile)
+                pickle.dump(self.imagelist,indexfile)
                 pickle.dump(self.taglist, indexfile)
                 if (self.query_pos):
                         pickle.dump(self.query_pos, indexfile)
