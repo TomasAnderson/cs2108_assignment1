@@ -1,4 +1,5 @@
 FeatureExtractor/*
+!FeatureExtractor/i2vSemanticFeature/
 test/*
 image/data/*/*.txt
 .DS_Store
