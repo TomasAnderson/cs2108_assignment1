@@ -3,6 +3,9 @@ import pyimagesearch.TRSolver as TRS
 import os
 import pyimagesearch.SFIndexer as SF
 import pyimagesearch.SFSolver as SFS
+import pyimagesearch.TFSFIndexer as TFSF
+import pyimagesearch.TFSFSolver as TFSFS
+
 import cProfile
 import time
 
@@ -15,6 +18,11 @@ import time
 #all = image_classify then consolidate
 #SF.SemanticFeatureIndex("consolidate")
 #SF.SemanticFeatureIndex("all")
-x = SFS.SemanticFeatureSolver(".." + os.sep+".." + os.sep + "queryimage.jpg")
+#x = SFS.SemanticFeatureSolver(".." + os.sep+".." + os.sep + "queryimage.jpg")
 #cProfile.run('SFS.SemanticFeatureSolver(".." + os.sep+".." + os.sep + "queryimage.jpg")')
 #print x.result
+
+#TFSF.SemanticFeatureIndex()
+#cProfile.run("TFSFS.SemanticFeatureSolver('queryimage.jpg')")
+x = TFSFS.SemanticFeatureSolver("queryimage.jpg")
+print x.result[0]

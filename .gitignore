@@ -1,3 +1,6 @@
 FeatureExtractor/*
 test/*
 image/data/*/*.txt
+.DS_Store
+*.out
+
