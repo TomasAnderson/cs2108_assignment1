@@ -19,7 +19,6 @@ class SemanticFeatureSolver:
                 start = time.clock()
                 self.index = pickle.load(indexfile)
                 indexfile.close()
-                print str(time.clock() - start)
                 self.result = dict()
                 self.extractFeatureVec(querypath)
                 start = time.clock()

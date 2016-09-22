@@ -9,10 +9,10 @@ import pyimagesearch.TFSFSolver as TFSFS
 import cProfile
 import time
 
-TR.TagIndex()
+# TR.TagIndex()
 TR_Result = TRS.TRSolver("queryimage.jpg")
-#cProfile.run("TRS.TRSolver('test'+os.sep+'data'+os.sep+'train'+os.sep+'0253_421644823.jpg')")
-print TR_Result.result
+# cProfile.run("TRS.TRSolver('test'+os.sep+'data'+os.sep+'train'+os.sep+'0253_421644823.jpg')")
+print TR_Result.result[0:3]
 
 
 
@@ -24,7 +24,7 @@ print TR_Result.result
 #cProfile.run('SFS.SemanticFeatureSolver(".." + os.sep+".." + os.sep + "queryimage.jpg")')
 #print x.result
 
-#TFSF.SemanticFeatureIndex()
-#cProfile.run("TFSFS.SemanticFeatureSolver('queryimage.jpg')")
-#x = TFSFS.SemanticFeatureSolver("queryimage.jpg")
-#print x.result[0:16]
+# TFSF.SemanticFeatureIndex()
+# cProfile.run("TFSFS.SemanticFeatureSolver('queryimage.jpg')")
+# x = TFSFS.SemanticFeatureSolver("queryimage.jpg")
+# print x.result[0:16]
