@@ -76,21 +76,25 @@ class UI_class:
         # perform SF search
         sfResults = [(t[1], t[0]) for t in self.sffeatures]
         
-        #TODO: join Rresults
+        #TODO: join results (top 16)
         image_list = []
         for (score, resultID) in sfResults[:5]:
+            # score ~ 0-1
             if resultID not in image_list:
                 image_list.append(resultID)
 
         for (score, resultID) in vmResults[:5]:
+            # score ~10 ~21
             if resultID not in image_list:
                 image_list.append(resultID)
 
         for (score, resultID) in colorResults[:3]:
+            # score ~10 ~20
             if resultID not in image_list:
                 image_list.append(resultID)
 
         for (score, resultID) in trResults[:3]:
+            # score 1.0
             if resultID not in image_list:
                 image_list.append(resultID)
 
