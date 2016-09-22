@@ -23,6 +23,7 @@ class TRSolver:
 
     def extractTag(self):
         stemmer = LancasterStemmer()
+        querytagfile = self.querypath.replace("jpg","txt");
         imgname = self.querypath[self.querypath.rfind(os.sep)+1:]
         query_known = self.known_query_tags.get(imgname, None)
         if (query_known != None):
@@ -41,11 +42,26 @@ class TRSolver:
             string = " ".join(string)
             self.tags = [string,]
             fs.close()
+        elif (os.path.isfile(querytagfile)):
+            fs = open(querytagfile,"r")
+            line = fs.readline().split()
+            string = []
+            for term in line:
+                try:
+                    tag = stemmer.stem(term)
+                    if (isinstance(tag, unicode) == False):
+                        tag = unicode(tag, "utf-8")
+                    string.append(tag)
+                except UnicodeDecodeError:
+                    continue
+            string = " ".join(string)
+            self.tags = [string,]
         else:
             img = open(self.querypath, 'rb')
             exif = exifread.process_file(img)
-            try:
-                comment = ast.literal_eval(str(eval("exif['Image XPComment']")))
+            keyword = ""
+	    try:
+               	comment = ast.literal_eval(str(eval("exif['Image XPComment']")))
                 comment = comment[0:-2:2]
                 comment = ''.join(chr(i) for i in comment)
                 comment = comment.replace(";","")
@@ -62,7 +78,21 @@ class TRSolver:
                 keyword = ""
             except SyntaxError:
                 print 'keyword', exif['Image XPKeywords']
-            self.tags = [keyword + comment,]
+            line = keyword + comment;
+            string = []
+            for term in line:
+                try:
+                    tag = stemmer.stem(term)
+                    if (isinstance(tag, unicode) == False):
+                        tag = unicode(tag, "utf-8")
+                    string.append(tag)
+                except UnicodeDecodeError:
+                    continue
+            string = " ".join(string)
+
+            self.tags = [string,]
+            print "here are the tags"
+            print self.tags
             img.close()
 
     def computeSimMatrix(self):
@@ -73,8 +103,10 @@ class TRSolver:
         self.known_query_tags = pickle.load(pk_file)
         self.extractTag()
         q_data =  self.tags + self.tagslist
+        #print q_data
         tfidf_matrix = tf.fit_transform(q_data)
         cos_score = cosine_similarity(tfidf_matrix[0:1], tfidf_matrix)
+	#print cos_score
         cos_score = cos_score[0][1:]
         self.result = dict(zip(self.imagelist, cos_score))
         pk_file.close()

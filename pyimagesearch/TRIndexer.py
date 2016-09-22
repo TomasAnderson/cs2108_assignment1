@@ -1,6 +1,3 @@
-# USAGE
-# python index.py --dataset dataset --index index.csv
-
 # import the necessary packages
 import argparse
 import nltk
@@ -22,8 +19,24 @@ class TagIndex:
                 #print self.taglist[243], self.imagelist[243]
                 doc.close()
                 self.read_test_tags()
+		self.extend_tags_w_cat()
                 self.storeToFile(args["index"])
 
+	def extend_tags_w_cat(self):
+		for line in open(args["category"], "r"):
+			for imagePath in glob.glob(os.path.join(os.path.join(args["dataset"], line.strip()),"*.jpg")):
+				imgID = imagePath[imagePath.rfind(os.sep) + 1:]
+				if imgID in self.imagelist:
+					print "extendinglist"
+					category = LancasterStemmer().stem(line.strip())
+					self.taglist[self.imagelist.index(imgID)] += " "+category
+					print self.taglist[self.imagelist.index(imgID)]
+				else:
+					print len(self.imagelist)
+					self.imagelist.append(imgID)
+					self.taglist.append(line.strip())
+					print len(self.imagelist)
+			
         def read_test_tags(self):
                 self.query_pos = dict()
                 fs = open (args["test"],"r")
@@ -33,7 +46,6 @@ class TagIndex:
                         self.query_pos [line.split()[0]] = pointer
                         pointer = fs.tell()
                         line = fs.readline()
-                        
                 
         def stem_word(self, line, taglist):
                 tags_length = len(line)
@@ -67,7 +79,7 @@ class TagIndex:
 
 # construct the argument parser and parse the arguments
 ap = argparse.ArgumentParser()
-ap.add_argument("-d", "--dataset", required = False, default='dataset',
+ap.add_argument("-d", "--dataset", required = False, default='image'+os.sep+'data',
 	help = "Path to the directory that contains the images to be indexed")
 ap.add_argument("-t", "--tags", required = False, default='image'+os.sep+'train_text_tags.txt',
 	help = "Path to where the file describing images and their list of tags are stored")
@@ -75,6 +87,8 @@ ap.add_argument("-i", "--index", required = False, default='pyimagesearch'+os.se
 	help = "Path to where the computed index will be stored")
 ap.add_argument("-tt", "--test", required = False, default='test'+os.sep+'test_text_tags.txt',
 	help = "Path to where the computed index will be stored")
+ap.add_argument("-cn", "--category", required = False, default='image'+os.sep+'category_names.txt',
+        help = "Path to the directory that contains the images to be indexed")
 
 args = vars(ap.parse_args())
 
