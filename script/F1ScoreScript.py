@@ -1,7 +1,7 @@
 import os
 import cPickle
 from sets import Set
-#from search_cmd import Search_cmd
+from search_cmd import Search_cmd
 
 NAME_TO_CLASS_MAPPING_FILEPATH = 'ITCM.dat' # Change the file path if you change the location of ITCM.dat 
 CLASS_TO_NAME_MAPPING_FILEPATH = 'CTNM.dat' # Change the file path if you change the location of CTNM.dat 
@@ -27,7 +27,7 @@ class F1Calculator:
             print CLASS_TO_NAME_MAPPING_FILEPATH, 'does not exist'
             
         # Load search cmd instance
-        #self.evaluator = Search_cmd()
+        self.evaluator = Search_cmd()
         
     # relevantImgs is a set while retrievedImgs is a list
     def calculatePrecision(self, relevantImgs, retrievedImgs):
