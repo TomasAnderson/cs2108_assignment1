@@ -12,19 +12,23 @@ import cPickle
 import sys
 
 class Search_cmd:
-    def __init__(self, filename):
-        self.filename = filename
-
-    def search(self):
+    
+    def search(self, fileName):
+        
+        query = cv.imread(fileName)
+        
+        #Added check for file exist
+        if query is None:
+            return []
+        
         cd = ColorDescriptor((8, 12, 3))
         classifierFilePath = './pyimagesearch/VWClassifier.dat'
-        fe = FeatureEvaluator(classifierFilePath) 
-
-        query = cv.imread(self.filename)
+        fe = FeatureEvaluator(classifierFilePath)
+        
         self.queryfeatures = cd.describe(query)
         self.vmfeatures = fe.predictFromImage(query, k=-1)
-        self.trfeatures = TRS.TRSolver(self.filename).result
-        self.sffeatures = TFSFS.SemanticFeatureSolver(self.filename).result
+        self.trfeatures = TRS.TRSolver(fileName).result
+        self.sffeatures = TFSFS.SemanticFeatureSolver(fileName).result
 
         colorSearcher = colorHistogramSearcher("index.csv")
         colorResults = colorSearcher.search(self.queryfeatures)
