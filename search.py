@@ -77,11 +77,14 @@ class UI_class:
         sfResults = [(t[1], t[0]) for t in self.sffeatures]
         
         #TODO: join results (top 16)
+
         image_list = []
         for (score, resultID) in sfResults[:5]:
             # score ~ 0-1
             if resultID not in image_list:
                 image_list.append(resultID)
+
+        vm_max_score = max(score for (score, resultID) in vmResults[:16])
 
         for (score, resultID) in vmResults[:5]:
             # score ~10 ~21
@@ -94,7 +97,8 @@ class UI_class:
                 image_list.append(resultID)
 
         for (score, resultID) in trResults[:3]:
-            # score 1.0
+            # score 0~1
+            print score
             if resultID not in image_list:
                 image_list.append(resultID)
 
