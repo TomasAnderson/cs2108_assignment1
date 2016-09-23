@@ -28,9 +28,9 @@ if __name__ == '__main__':
     
     #mapping = cPickle.load('ITCM.dat')
     
-    #outputFile = open(MAPPING_FILEPATH, 'w')
-    #cPickle.dump(mapping, outputFile, protocol=cPickle.HIGHEST_PROTOCOL)
-    #outputFile.close()
+    outputFile = open(MAPPING_FILEPATH, 'w')
+    cPickle.dump(mapping, outputFile, protocol=cPickle.HIGHEST_PROTOCOL)
+    outputFile.close()
     
     print 'Mapping process completed'
     
