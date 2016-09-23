@@ -17,6 +17,7 @@ print TR_Result.result
 #idf = TR_Result.tf.idf_
 #print dict(zip(TR_Result.tf.get_feature_names(), idf))
 #TRP.PlotTR(TR_Result.tfidf_matrix)
+
 #all = image_classify then consolidate
 #SF.SemanticFeatureIndex("consolidate")
 #SF.SemanticFeatureIndex("all")
@@ -24,7 +25,7 @@ print TR_Result.result
 #cProfile.run('SFS.SemanticFeatureSolver(".." + os.sep+".." + os.sep + "queryimage.jpg")')
 #print x.result
 
-#TFSF.SemanticFeatureIndex()
-#cProfile.run("TFSFS.SemanticFeatureSolver('queryimage.jpg')")
-#x = TFSFS.SemanticFeatureSolver("queryimage.jpg")
-#print x.result[0:16]
+# TFSF.SemanticFeatureIndex()
+# cProfile.run("TFSFS.SemanticFeatureSolver('queryimage.jpg')")
+# x = TFSFS.SemanticFeatureSolver("queryimage.jpg")
+# print x.result[0:16]

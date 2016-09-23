@@ -1,10 +1,15 @@
 # import the necessary packages
 from pyimagesearch.colordescriptor import ColorDescriptor
+from pyimagesearch.VWEvaluator import FeatureEvaluator
+import pyimagesearch.TRSolver as TRS
 from pyimagesearch.colorHistogramSearcher import colorHistogramSearcher
-import cv2
+import pyimagesearch.TFSFSolver as TFSFS
+
+import cv2 as cv
 from Tkinter import *
 import tkFileDialog
 from PIL import Image, ImageTk
+
 
 class UI_class:
     def __init__(self, master, search_path):
@@ -34,12 +39,15 @@ class UI_class:
         # process query image to feature vector
         # initialize the image descriptor
         cd = ColorDescriptor((8, 12, 3))
-
-        #TODO: Add more descriptor to the query image
+        classifierFilePath = './pyimagesearch/VWClassifier.dat'
+        fe = FeatureEvaluator(classifierFilePath) 
 
         # load the query image and describe it
-        query = cv2.imread(self.filename)
+        query = cv.imread(self.filename)
         self.queryfeatures = cd.describe(query)
+        self.vmfeatures = fe.predictFromImage(query, k=10)
+        self.trfeatures = TRS.TRSolver(self.filename).result[0: 10]
+        self.sffeatures = TFSFS.SemanticFeatureSolver(self.filename).result[0:10]
 
         # show query image
         image_file = Image.open(self.filename)
@@ -58,16 +66,43 @@ class UI_class:
         # perform color search
         colorSearcher = colorHistogramSearcher("index.csv")
         colorResults = colorSearcher.search(self.queryfeatures)
+        
+        # perform VW search
+        vmResults = [(t[1], t[0]) for t in self.vmfeatures]
 
-        #TODO: perform other search
+        # perform TR search
+        trResults = [(t[1], t[0]) for t in self.trfeatures]
 
-        #TODO: join results
-        results = colorResults
+        # perform SF search
+        sfResults = [(t[1], t[0]) for t in self.sffeatures]
+        
+        #TODO: join results (top 16)
+        image_list = []
+        for (score, resultID) in sfResults[:5]:
+            # score ~ 0-1
+            if resultID not in image_list:
+                image_list.append(resultID)
+
+        for (score, resultID) in vmResults[:5]:
+            # score ~10 ~21
+            if resultID not in image_list:
+                image_list.append(resultID)
+
+        for (score, resultID) in colorResults[:3]:
+            # score ~10 ~20
+            if resultID not in image_list:
+                image_list.append(resultID)
+
+        for (score, resultID) in trResults[:3]:
+            # score 1.0
+            if resultID not in image_list:
+                image_list.append(resultID)
+
 
         # show result pictures
         COLUMNS = 5
         image_count = 0
-        for (score, resultID) in results:
+        for resultID in image_list:
             # load the result image and display it
             image_count += 1
             r, c = divmod(image_count - 1, COLUMNS)
@@ -82,4 +117,4 @@ class UI_class:
 
 
 root = Tk()
-window = UI_class(root,'dataset')
+window = UI_class(root,'./image/dataset/')
