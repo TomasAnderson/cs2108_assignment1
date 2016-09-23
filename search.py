@@ -116,7 +116,7 @@ class UI_class:
         image_list = sorted(image_dict.items(), key=operator.itemgetter(1), reverse=True)[:k]
         
         # check if SF feature is showing a dominant class
-        mappingFile = open('ITCM.dat', 'rb')
+        mappingFile = open('script/ITCM.dat', 'rb')
         mapping = cPickle.load(mappingFile)
         category_count = {}
         for (result, score) in image_list:
