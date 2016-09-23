@@ -6,7 +6,7 @@ import os
 import nltk
 from nltk.stem.lancaster import LancasterStemmer
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.metrics.pairwise import cosine_similarity, euclidean_distances
 import operator
 import time
 
@@ -96,7 +96,7 @@ class TRSolver:
             img.close()
 
     def computeSimMatrix(self):
-        tf = TfidfVectorizer(analyzer='word', ngram_range=(1,1), min_df = 0, stop_words = 'english')
+        self.tf = TfidfVectorizer(analyzer='word', ngram_range=(1,1), min_df = 0, stop_words = 'english', norm = 'l2', use_idf=True, sublinear_tf=True)
         pk_file = open(self.indexpath,'rb')
         self.imagelist = pickle.load(pk_file)
         self.tagslist = pickle.load(pk_file)
@@ -104,11 +104,13 @@ class TRSolver:
         self.extractTag()
         q_data =  self.tags + self.tagslist
         #print q_data
-        tfidf_matrix = tf.fit_transform(q_data)
-        cos_score = cosine_similarity(tfidf_matrix[0:1], tfidf_matrix)
-	#print cos_score
+        self.tfidf_matrix = self.tf.fit_transform(q_data)
+        cos_score = cosine_similarity(self.tfidf_matrix[0:1], self.tfidf_matrix)
         cos_score = cos_score[0][1:]
         self.result = dict(zip(self.imagelist, cos_score))
+        #euc_score = euclidean_distances(self.tfidf_matrix[0:1], self.tfidf_matrix)
+        #euc_score = euc_score[0][1:]
+        #self.result = dict(zip(self.imagelist, euc_score))
         pk_file.close()
         
         

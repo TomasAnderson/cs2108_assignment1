@@ -11,11 +11,9 @@ import cProfile
 import time
 
 #TR.TagIndex()
-TR_Result = TRS.TRSolver("queryimage.jpg")
+#TR_Result = TRS.TRSolver("queryimage.jpg")
 #cProfile.run("TRS.TRSolver('test'+os.sep+'data'+os.sep+'train'+os.sep+'0253_421644823.jpg')")
-print TR_Result.result
-#idf = TR_Result.tf.idf_
-#print dict(zip(TR_Result.tf.get_feature_names(), idf))
+#print TR_Result.result
 #TRP.PlotTR(TR_Result.tfidf_matrix)
 #all = image_classify then consolidate
 #SF.SemanticFeatureIndex("consolidate")
