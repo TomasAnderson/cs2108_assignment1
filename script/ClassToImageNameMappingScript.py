@@ -26,8 +26,8 @@ if __name__ == '__main__':
                     imageLst.append(imageName)
                 reverseIdx[categoryName] = imageLst
         
-        outputFile = open(MAPPING_FILEPATH, 'w')
-        cPickle.dump(reverseIdx, outputFile, protocol=cPickle.HIGHEST_PROTOCOL)
+        outputFile = open(MAPPING_FILEPATH, 'wb')
+        cPickle.dump(reverseIdx, outputFile, protocol=-1)
         outputFile.close()
         
         print 'Mapping done'
