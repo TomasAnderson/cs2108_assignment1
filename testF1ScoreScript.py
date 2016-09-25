@@ -3,8 +3,8 @@ from F1ScoreScript import F1Calculator
 if __name__ == '__main__':
     
     F1C = F1Calculator()
-    imageName = '../image/dataset/0001_389068663.jpg'
-    imageNames = [ imageName, '../image/dataset/0001_352403456.jpg' ]
+    imageName = 'image/dataset/0001_389068663.jpg'
+    imageNames = [ imageName, 'image/dataset/0001_352403456.jpg' ]
     
     # For one image and do not save f1 score to any file
     f1Score = F1C.getF1Score(imageName, None)
