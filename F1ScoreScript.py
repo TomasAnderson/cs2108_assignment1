@@ -96,6 +96,7 @@ class F1Calculator:
         denom = recall + precision
         f1Score = 0
         
+        print 'size of relevant images =', len(relevantImgs)
         print 'size of retrieved images =', len(retrievedImgs)
         print 'denom =', denom
         
