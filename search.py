@@ -27,6 +27,8 @@ class UI_class:
         self.bbutton.grid(row=1, column=1)
         self.cbutton = Button(topframe, text=" Search ", command=self.show_results_imgs)
         self.cbutton.grid(row=1, column=2)
+        self.dbutton = Button(topframe, text=" Clear ", command=self.clear)
+        self.dbutton.grid(row=1, column=3)
         downspace = Label(topframe).grid(row=3, columnspan=4)
 
         self.master.mainloop()
@@ -146,6 +148,12 @@ class UI_class:
             myvar.grid(row=r, column=c)
 
         self.result_img_frame.mainloop()
+
+    def clear(self):
+        if self.query_img_frame is not None:
+            self.query_img_frame.destroy()
+        if self.result_img_frame is not None:
+            self.result_img_frame.destroy()
 
 
 root = Tk()
