@@ -101,7 +101,7 @@ class F1Calculator:
             
         if outputFileName is not None:
             outputFile = open(outputFileName, 'w')
-            outputFile.write( imageName + ' ' + f1Score )
+            outputFile.write( imageName + ' ' + str(f1Score) )
             outputFile.close()
             
         return f1Score
@@ -118,7 +118,7 @@ class F1Calculator:
         if outputFileName is not None:
             outputFile = open(outputFileName, 'w')
             for f1Score in f1Scores:
-                outputFile.write( imageName + ' ' + f1Score + '\n' )
+                outputFile.write( imageName + ' ' + str(f1Score) + '\n' )
             outputFile.close()
                 
         return f1Scores
