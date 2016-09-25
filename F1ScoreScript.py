@@ -96,8 +96,10 @@ class F1Calculator:
         denom = recall + precision
         f1Score = 0
         
+        print 'denom =', denom
+        
         if denom > 0:
-            f1Score = 2 * ((recall*precision)/denom)
+            f1Score = 2 * ((recall*precision)/float(denom))
             
         if outputFileName is not None:
             outputFile = open(outputFileName, 'w')
