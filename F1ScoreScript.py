@@ -89,7 +89,7 @@ class F1Calculator:
         if retrievedImgs is None:
             return -1
         
-        relevantImgs = self.getRelevantImgs(imageName)
+        relevantImgs = self.getRelevantImgs(os.path.basename(imageName))
         
         recall = self.calculateRecall(relevantImgs, retrievedImgs)
         precision = self.calculatePrecision(relevantImgs, retrievedImgs)
