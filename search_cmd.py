@@ -74,7 +74,7 @@ class Search_cmd:
             else:
                 image_dict[resultID] = score*tr_weight
 
-        k = 16
+        k = 50
         image_list = sorted(image_dict.items(), key=operator.itemgetter(1), reverse=True)[:k]
         result = [resultID for (resultID, score) in image_list]
         return result
