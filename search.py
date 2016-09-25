@@ -69,7 +69,7 @@ class UI_class:
 
         # perform color search
         colorSearcher = colorHistogramSearcher("index.csv")
-        colorResults = colorSearcher.search(self.queryfeatures)
+        colorResults = colorSearcher.search(self.queryfeatures, 1469)
         color_max = max(score for (score, resultID) in colorResults)
         chResults = [(1-t[0]*(1/color_max), t[1]) for t in colorResults]
         
